@@ -14,8 +14,9 @@ const App = () => {
       telegram.ready();
       telegram.expand();
       setTg(telegram);
-      setUser(telegram.initDataUnsafe?.user);
-      setGreeting(`Привет, ${telegram.initDataUnsafe?.user?.first_name || "Гость"}! 🎁`);
+      const currentUser = telegram.initDataUnsafe?.user;
+      setUser(currentUser);
+      setGreeting(`Привет, ${currentUser?.first_name || "Гость"}! 🎁`);
     }
   }, []);
 
@@ -28,6 +29,13 @@ const App = () => {
     <div className="min-h-screen bg-gradient-to-br from-indigo-100 to-purple-200 flex flex-col items-center justify-center p-4 text-center">
       <h1 className="text-3xl font-bold mb-4">NFT Gift Mini App</h1>
       <p className="text-lg mb-2">{greeting}</p>
+
+      {user && (
+        <p className="text-sm text-gray-600 mb-4">
+          👤 @{user.username || "no-username"} | ID: {user.id}
+        </p>
+      )}
+
       <button
         onClick={handleGift}
         className="bg-purple-600 text-white px-6 py-2 rounded-2xl text-lg shadow hover:bg-purple-700 transition"
